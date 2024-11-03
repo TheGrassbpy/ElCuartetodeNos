@@ -20,7 +20,7 @@
             padding: 20px;
             text-align: center;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            position: relative;
+            margin-bottom: 20px; /* Margen inferior añadido */
         }
         header h1 {
             margin: 0;
@@ -88,9 +88,10 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
         }
         li img {
-            width: 100px; /* Ajusta el tamaño de la imagen */
+            width: 100px;
             height: auto;
             border-radius: 5px;
             margin-right: 15px;
@@ -121,9 +122,10 @@
             display: flex;
             justify-content: center;
             margin-top: 10px;
+            flex-wrap: wrap;
         }
         .social-links a {
-            margin: 0 10px;
+            margin: 5px;
             background: #F44336;
             color: white;
             padding: 10px 15px;
@@ -148,31 +150,33 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            text-align: center;
-            padding: 50px;
+            justify-content: center; /* Centrar horizontalmente */
+            align-items: center; /* Centrar verticalmente */
         }
         .modal-content {
-            background: linear-gradient(135deg, #FF4081, #F44336);
-            padding: 20px;
+            background: #fff; /* Fondo blanco para el contenido */
+            color: #333; /* Color de texto oscuro */
             border-radius: 15px;
-            display: inline-block;
+            padding: 20px;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-            margin-top: 100px; /* Para centrarlo verticalmente */
-            max-width: 400px;
+            max-width: 90%; /* Responsivo */
+            width: 400px; /* Ancho máximo */
+            text-align: center; /* Centrar texto */
+            opacity: 0; /* Inicialmente oculto */
+            transform: translateY(-50px); /* Mover hacia arriba */
+            transition: opacity 0.5s ease, transform 0.5s ease; /* Añadir transición */
+        }
+        .modal-content.show {
+            opacity: 1; /* Mostrar modal */
+            transform: translateY(0); /* Regresar a su posición */
         }
         .modal-content h2 {
             margin: 0;
-            font-size: 1.8em;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-        .modal-content p {
-            font-size: 1.2em;
-            margin: 15px 0;
+            color: #F44336; /* Color del título */
         }
         .close-btn {
-            background: #fff;
-            color: #F44336;
+            background: #F44336; /* Botón rojo */
+            color: white;
             padding: 10px 15px;
             border: none;
             border-radius: 5px;
@@ -182,7 +186,24 @@
             transition: background 0.3s;
         }
         .close-btn:hover {
-            background: #FFAB40;
+            background: #C2185B; /* Color más oscuro al pasar el mouse */
+        }
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em; /* Ajusta el tamaño del texto en pantallas pequeñas */
+            }
+            h2 {
+                font-size: 1.5em; /* Ajusta el tamaño del texto en pantallas pequeñas */
+            }
+            .hero {
+                height: 250px; /* Reduce la altura de la imagen hero en dispositivos móviles */
+            }
+            .modal-content {
+                width: 90%; /* Asegura que el modal ocupe el 90% en móviles */
+            }
+            li img {
+                width: 80px; /* Ajusta el tamaño de las imágenes en dispositivos móviles */
+            }
         }
     </style>
     <script>
@@ -204,11 +225,18 @@
 
             // Mostrar el modal al cargar la página
             const modal = document.getElementById('modal');
-            modal.style.display = 'block';
+            const modalContent = document.querySelector('.modal-content');
+            modal.style.display = 'flex'; // Cambiado a 'flex' para centrar
+            setTimeout(() => {
+                modalContent.classList.add('show'); // Añadir clase para animar
+            }, 10); // Retraso para permitir el renderizado
 
             // Cerrar el modal al hacer clic en el botón
             document.getElementById('close-modal').addEventListener('click', function() {
-                modal.style.display = 'none';
+                modalContent.classList.remove('show'); // Quitar clase para ocultar
+                setTimeout(() => {
+                    modal.style.display = 'none'; // Ocultar modal después de la animación
+                }, 500); // Esperar a que termine la animación
             });
         });
     </script>
@@ -218,8 +246,8 @@
         <h1>El Cuarteto de Nos</h1>
         <nav>
             <a href="#sobre">Sobre la Banda</a>
-            <a href="#albumes">Álbumes Destacados</a>
-            <a href="#temas">Temas Destacados</a>
+            <a href="#albumes">Álbumes</a>
+            <a href="#temas">Temas</a>
             <a href="#eventos">Eventos</a>
             <a href="#contacto">Contacto</a>
         </nav>
@@ -227,22 +255,24 @@
 
     <div class="modal" id="modal">
         <div class="modal-content">
-            <h2>Nota Importante</h2>
-            <p>Esta no es una página oficial de El Cuarteto de Nos.</p>
-            <button class="close-btn" id="close-modal">Cerrar</button>
+            <h2>Este sitio no es oficial</h2>
+            <p>Información sobre el Cuarteto de Nos no oficial.</p>
+            <button id="close-modal" class="close-btn">Cerrar</button>
         </div>
     </div>
 
     <div class="container">
         <div class="hero">
-            <h1>¡Música y Diversión!</h1>
+            <h1>Bienvenido a El Cuarteto de Nos - Algo Raro</h1>
         </div>
-        
-        <h2 id="sobre">Sobre la Banda</h2>
-        <p>El Cuarteto de Nos es una banda de rock alternativo de Uruguay, formada en 1980. Se caracteriza por su estilo único que combina humor, crítica social y una mezcla de géneros musicales.</p>
-        
-        <div class="section">
-            <h2 id="albumes">Álbumes Destacados</h2>
+
+        <div class="section" id="sobre">
+            <h2>Sobre la Banda</h2>
+            <p>El Cuarteto de Nos es una banda de rock alternativo uruguaya formada en 1980. Con letras ingeniosas y un estilo diverso, han dejado una huella en la música latina con álbumes como "Raro" y "Porfiado".</p>
+        </div>
+
+        <div class="section" id="albumes">
+            <h2>Álbumes Destacados</h2>
             <ul>
                 <li>
                     <img src="https://cuartetodenos.com.uy/wp-content/uploads/2022/07/LAMINA_ONCE_TAPA_3000x3000-705x705.jpg" alt="Lámina Once">
@@ -272,8 +302,8 @@
             </ul>
         </div>
 
-        <div class="section">
-            <h2 id="temas">Temas Destacados</h2>
+        <div class="section" id="temas">
+            <h2>Temas Destacados</h2>
             <ul>
                 <li>El cinturón gris (Álbum: Lámina Once, 2022)</li>
                 <li>Punta Cana (Álbum: Jueves, 2019)</li>
@@ -283,9 +313,9 @@
             </ul>
         </div>
 
-        <div class="section">
-            <h2 id="eventos">Eventos</h2>
-            <p>El próximo sábado y domingo estaremos presentes con la tienda y todos los productos en el Antel Arena! Por eso es que pausamos la tienda web desde este martes 29/10 hasta el miércoles 06/11. ¡Nos vemos ahí!</p>
+        <div class="section" id="eventos">
+            <h2>Eventos</h2>
+            <p>El próximo sábado y domingo El Cuarteto de Nos estará presente con la tienda y todos los productos en el Antel Arena! ¡Nos vemos ahí!</p>
         </div>
 
         <div class="section" id="contacto">
@@ -305,3 +335,4 @@
     </footer>
 </body>
 </html>
+
